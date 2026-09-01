@@ -1,0 +1,170 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<div class="itcs-main-wrapper">
+    <%- include('../partials/navbar') %>
+
+    <main class="itcs-page-content">
+        <div class="itcs-page-header">
+            <div>
+                <h1 class="itcs-page-title">Audit Reports & Historical Data Center</h1>
+                <p class="itcs-page-subtitle">
+                    Centralized historical telemetry records and official CSV data export center
+                </p>
+            </div>
+            <div style="display: flex; gap: var(--itcs-space-2); flex-wrap: wrap;">
+                <a href="/api/reports/export/csv?type=traffic" class="itcs-btn itcs-btn-primary itcs-btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download Traffic Volume CSV</span>
+                </a>
+                <a href="/api/reports/export/csv?type=preemption" class="itcs-btn itcs-btn-secondary itcs-btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download Preemption CSV</span>
+                </a>
+                <a href="/api/reports/export/csv?type=pedestrian" class="itcs-btn itcs-btn-secondary itcs-btn-sm">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download Pedestrian CSV</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter Card -->
+        <div class="itcs-card" style="margin-bottom: var(--itcs-space-5);">
+            <div style="display: flex; gap: var(--itcs-space-4); align-items: flex-end; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 200px;">
+                    <label class="itcs-form-label">Filter by Corridor / Approach</label>
+                    <select id="filter-lane" class="itcs-form-select" onchange="applyReportFilter()">
+                        <option value="">All 4 Approaches</option>
+                        <% lanes.forEach(l => { %>
+                            <option value="<%= l.id %>"><%= l.name %> (<%= l.direction %>)</option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div style="width: 140px;">
+                    <label class="itcs-form-label">Row Limit</label>
+                    <select id="filter-limit" class="itcs-form-select" onchange="applyReportFilter()">
+                        <option value="30">30 Records</option>
+                        <option value="50">50 Records</option>
+                        <option value="100">100 Records</option>
+                        <option value="200">200 Records</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sensor Readings Table -->
+        <div class="itcs-card">
+            <div class="itcs-card-header">
+                <div class="itcs-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Sensor Telemetry & Vehicle Density Audit Logs</span>
+                </div>
+                <span class="itcs-badge itcs-badge-purple">Simulated Source Tagged</span>
+            </div>
+
+            <div class="itcs-table-container">
+                <table class="itcs-table" id="itcs-reports-table">
+                    <thead>
+                        <tr>
+                            <th>Reading ID</th>
+                            <th>Approach Corridor</th>
+                            <th>Direction Code</th>
+                            <th>Vehicle Density</th>
+                            <th>Emergency Flag</th>
+                            <th>Pedestrian Flag</th>
+                            <th>Data Source</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itcs-reports-body">
+                        <% if (readings && readings.length > 0) { %>
+                            <% readings.forEach(r => { %>
+                                <tr>
+                                    <td><span class="itcs-badge itcs-badge-blue">#SR-<%= r.id %></span></td>
+                                    <td><strong><%= r.lane_name || 'Approach Lane' %></strong></td>
+                                    <td><%= r.lane_code || '-' %></td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <span><strong><%= r.vehicle_density %>%</strong></span>
+                                            <div class="itcs-progress-bar" style="width: 60px; height: 6px;">
+                                                <div class="itcs-progress-fill <%= r.vehicle_density >= 70 ? 'itcs-progress-fill-red' : (r.vehicle_density >= 40 ? 'itcs-progress-fill-yellow' : 'itcs-progress-fill-green') %>" style="width: <%= r.vehicle_density %>%;"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <% if (r.emergency_vehicle_flag) { %>
+                                            <span class="itcs-badge itcs-badge-red">ALERT DETECTED</span>
+                                        <% } else { %>
+                                            <span style="color: var(--itcs-text-muted);">None</span>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <% if (r.pedestrian_waiting_flag) { %>
+                                            <span class="itcs-badge itcs-badge-cyan">WAITING</span>
+                                        <% } else { %>
+                                            <span style="color: var(--itcs-text-muted);">None</span>
+                                        <% } %>
+                                    </td>
+                                    <td><span class="itcs-badge itcs-badge-purple">SIMULATED</span></td>
+                                    <td style="color: var(--itcs-text-secondary); font-family: var(--itcs-font-mono); font-size: var(--itcs-text-xs);">
+                                        <%= new Date(r.recorded_at).toLocaleString() %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8" style="text-align: center; color: var(--itcs-text-muted); padding: var(--itcs-space-6);">
+                                    No sensor readings recorded yet.
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+<%- include('../partials/footer') %>
+
+<script>
+async function applyReportFilter() {
+    const laneId = document.getElementById('filter-lane').value;
+    const limit = document.getElementById('filter-limit').value;
+
+    let url = `/api/reports/traffic-volume?limit=${limit}`;
+    if (laneId) url += `&laneId=${laneId}`;
+
+    try {
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.success && json.data) {
+            const tbody = document.getElementById('itcs-reports-body');
+            tbody.innerHTML = '';
+
+            json.data.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="itcs-badge itcs-badge-blue">#SR-${r.id}</span></td>
+                    <td><strong>${r.lane_name || 'Approach'}</strong></td>
+                    <td>${r.lane_code || '-'}</td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span><strong>${r.vehicle_density}%</strong></span>
+                            <div class="itcs-progress-bar" style="width:60px;height:6px;">
+                                <div class="itcs-progress-fill ${r.vehicle_density >= 70 ? 'itcs-progress-fill-red' : (r.vehicle_density >= 40 ? 'itcs-progress-fill-yellow' : 'itcs-progress-fill-green')}" style="width:${r.vehicle_density}%;"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${r.emergency_vehicle_flag ? '<span class="itcs-badge itcs-badge-red">ALERT DETECTED</span>' : '<span style="color:var(--itcs-text-muted)">None</span>'}</td>
+                    <td>${r.pedestrian_waiting_flag ? '<span class="itcs-badge itcs-badge-cyan">WAITING</span>' : '<span style="color:var(--itcs-text-muted)">None</span>'}</td>
+                    <td><span class="itcs-badge itcs-badge-purple">SIMULATED</span></td>
+                    <td style="color:var(--itcs-text-secondary);font-family:var(--itcs-font-mono);font-size:var(--itcs-text-xs);">${new Date(r.recorded_at).toLocaleString()}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    } catch (err) {
+        console.error('Filter error:', err);
+    }
+}
+</script>

@@ -1,0 +1,312 @@
+/**
+ * JunctionAI 4-Way Intersection Schematic CSS (Kemetra Light Theme - NO GRADIENTS)
+ * CSS Prefix: itcs-*
+ * Ekpo-Abasi Junction, Calabar South Map-Style Visualizer
+ */
+
+.itcs-intersection-panel {
+    background-color: #ffffff;
+    border: 1px solid var(--itcs-border);
+    border-radius: var(--itcs-radius-lg);
+    box-shadow: var(--itcs-shadow-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Map Header Bar with Sublocation Dropdown (Kemetra Style) */
+.itcs-map-header-bar {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--itcs-border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+
+.itcs-map-location-tags {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: var(--itcs-text-xs);
+}
+
+.itcs-map-loc-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.itcs-loc-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--itcs-color-accent-blue);
+}
+
+.itcs-map-subloc-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    color: var(--itcs-text-primary);
+}
+
+/* Master Map Schematic Canvas Container */
+.itcs-map-canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background-color: #f8fafc;
+    overflow: hidden;
+}
+
+/* Floating Zoom & Map Controls (Kemetra Style) */
+.itcs-map-floating-controls {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 15;
+}
+
+.itcs-map-ctrl-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff;
+    border: 1px solid var(--itcs-border);
+    border-radius: var(--itcs-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--itcs-text-secondary);
+    box-shadow: var(--itcs-shadow-card);
+    cursor: pointer;
+}
+
+.itcs-map-ctrl-btn:hover {
+    background-color: var(--itcs-bg-main);
+    color: var(--itcs-text-primary);
+}
+
+/* 4-Way Crossroads Grid inside Map Canvas */
+.itcs-intersection-map {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 140px 1fr;
+    grid-template-rows: 1fr 140px 1fr;
+    background-color: #f1f5f9;
+}
+
+/* Corner Quadrants (Surrounding City Blocks / UNICROSS / Commercial / Residential) */
+.itcs-quadrant {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.itcs-quad-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--itcs-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.itcs-quad-crutech { border-bottom: 2px solid #cbd5e1; border-right: 2px solid #cbd5e1; }
+.itcs-quad-commercial { border-bottom: 2px solid #cbd5e1; border-left: 2px solid #cbd5e1; }
+.itcs-quad-anantigha { border-top: 2px solid #cbd5e1; border-right: 2px solid #cbd5e1; }
+.itcs-quad-target { border-top: 2px solid #cbd5e1; border-left: 2px solid #cbd5e1; }
+
+/* Road Arms (Asphalt) */
+.itcs-road-arm {
+    background-color: var(--itcs-road-asphalt);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itcs-road-north, .itcs-road-south { flex-direction: column; }
+.itcs-road-north { border-bottom: 2px dashed var(--itcs-road-marking-yellow); }
+.itcs-road-south { border-top: 2px dashed var(--itcs-road-marking-yellow); }
+.itcs-road-east { border-left: 2px dashed var(--itcs-road-marking-yellow); }
+.itcs-road-west { border-right: 2px dashed var(--itcs-road-marking-yellow); }
+
+/* Center Junction Box with Pin Marker */
+.itcs-road-center {
+    background-color: #0f172a;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Floating Center Junction Pin (Kemetra Blue Pin Style) */
+.itcs-center-pin-hub {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 12;
+}
+
+.itcs-center-pulse-dot {
+    width: 14px;
+    height: 14px;
+    background-color: var(--itcs-color-accent-blue);
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.2);
+    margin-bottom: 4px;
+}
+
+.itcs-junction-hub-badge {
+    background-color: #ffffff;
+    border: 1px solid var(--itcs-border);
+    border-radius: var(--itcs-radius-sm);
+    padding: 3px 8px;
+    text-align: center;
+    box-shadow: var(--itcs-shadow-card);
+}
+
+.itcs-junction-hub-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--itcs-text-secondary);
+    text-transform: uppercase;
+}
+
+.itcs-junction-hub-timer {
+    font-family: var(--itcs-font-mono);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--itcs-color-primary);
+}
+
+/* Lane Approach Cards & Telemetry Overlays (Clean White Card Badges) */
+.itcs-lane-overlay {
+    position: absolute;
+    z-index: 10;
+    background-color: #ffffff;
+    border: 1px solid var(--itcs-border);
+    border-radius: var(--itcs-radius-md);
+    padding: 6px 10px;
+    width: 150px;
+    box-shadow: var(--itcs-shadow-card);
+}
+
+.itcs-overlay-north { top: 8px; left: 50%; transform: translateX(-50%); }
+.itcs-overlay-south { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.itcs-overlay-west { left: 8px; top: 50%; transform: translateY(-50%); }
+.itcs-overlay-east { right: 8px; top: 50%; transform: translateY(-50%); }
+
+.itcs-lane-name-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--itcs-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.itcs-lane-density-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+    margin-top: 2px;
+    color: var(--itcs-text-secondary);
+}
+
+.itcs-density-num {
+    font-family: var(--itcs-font-mono);
+    font-weight: 700;
+    color: var(--itcs-text-primary);
+}
+
+/* 3-Aspect Traffic Signal Head */
+.itcs-signal-head {
+    width: 28px;
+    background-color: #0f172a;
+    border: 2px solid #334155;
+    border-radius: 6px;
+    padding: 3px 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    box-shadow: var(--itcs-shadow-card);
+    position: absolute;
+    z-index: 11;
+}
+
+.itcs-signal-north { bottom: 8px; right: 12px; }
+.itcs-signal-south { top: 8px; left: 12px; }
+.itcs-signal-west { right: 8px; top: 12px; }
+.itcs-signal-east { left: 8px; bottom: 12px; }
+
+/* Light Aspects */
+.itcs-aspect-light {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #111827;
+    transition: background-color 0.15s ease;
+}
+
+/* Inactive Dim Lights */
+.itcs-aspect-red { background-color: #3b0d0d; }
+.itcs-aspect-yellow { background-color: #3d2304; }
+.itcs-aspect-green { background-color: #062b1e; }
+
+/* Active Solid Glow Lights (NO GRADIENTS) */
+.itcs-aspect-red.active {
+    background-color: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+    border-color: #f87171;
+}
+
+.itcs-aspect-yellow.active {
+    background-color: #f59e0b;
+    box-shadow: 0 0 8px #f59e0b;
+    border-color: #fbbf24;
+}
+
+.itcs-aspect-green.active {
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    border-color: #34d399;
+}
+
+/* Pedestrian Signal Box */
+.itcs-ped-box {
+    position: absolute;
+    z-index: 12;
+    background-color: #ffffff;
+    border: 1px solid var(--itcs-border);
+    border-radius: var(--itcs-radius-sm);
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: var(--itcs-shadow-card);
+}
+
+.itcs-ped-walk { color: #0891b2; border-color: #0891b2; }
+.itcs-ped-dont-walk { color: #dc2626; }
+
+/* Emergency Flashing Strobe State */
+.itcs-emergency-active-border {
+    border: 2px solid #ef4444 !important;
+}

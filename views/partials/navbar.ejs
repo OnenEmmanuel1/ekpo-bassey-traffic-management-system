@@ -1,0 +1,50 @@
+<!-- Top Navbar (Kemetra Light Style) -->
+<header class="itcs-navbar">
+    <!-- Left: Intersection Location Dropdown Card -->
+    <div class="itcs-nav-location-card">
+        <div class="itcs-nav-dropdown-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+        <div class="itcs-nav-location-details">
+            <div class="itcs-nav-location-title">
+                <span>Ekpo-Abasi Junction</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <div class="itcs-nav-status-sub">
+                <span class="itcs-nav-status-dot"></span>
+                <span id="itcs-connection-status" style="font-weight: 600; color: var(--itcs-color-primary);">Online</span>
+                <span>&bull;</span>
+                <span id="itcs-live-clock" style="font-family: var(--itcs-font-mono);">--:--:--</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Center: Main Navigation Tabs -->
+    <nav class="itcs-nav-tabs">
+        <a href="/dashboard" class="itcs-nav-tab <%= (typeof activeNav !== 'undefined' && activeNav === 'dashboard') ? 'active' : '' %>">Overview</a>
+        <a href="/reports" class="itcs-nav-tab <%= (typeof activeNav !== 'undefined' && activeNav === 'reports') ? 'active' : '' %>">Sensor Log</a>
+        <a href="/configuration" class="itcs-nav-tab <%= (typeof activeNav !== 'undefined' && activeNav === 'configuration') ? 'active' : '' %>">Settings</a>
+    </nav>
+
+    <!-- Right: Notifications & User Profile -->
+    <div class="itcs-nav-right">
+        <div class="itcs-nav-bell-btn" title="System Alerts" onclick="window.location.href='/preemption'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="itcs-nav-bell-badge">2</span>
+        </div>
+
+        <% if (typeof admin !== 'undefined' && admin) { %>
+            <div class="itcs-user-profile">
+                <div class="itcs-user-avatar">
+                    <%= admin.name ? admin.name.split(' ').map(n => n[0]).join('').substring(0,2) : 'BO' %>
+                </div>
+                <div class="itcs-user-info">
+                    <div class="itcs-user-name"><%= admin.name || 'Engr. Bassey Okon' %></div>
+                    <div class="itcs-user-role-code">CR-ADMIN-01 &bull; <a href="/logout" style="color: var(--itcs-color-emergency); font-weight: 600;">Sign Out</a></div>
+                </div>
+            </div>
+        <% } else { %>
+            <a href="/login" class="itcs-btn itcs-btn-primary itcs-btn-sm">Admin Sign In</a>
+        <% } %>
+    </div>
+</header>

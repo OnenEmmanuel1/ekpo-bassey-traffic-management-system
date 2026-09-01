@@ -1,0 +1,102 @@
+/**
+ * JunctionAI Light Design Tokens (Kemetra Theme - NO GRADIENTS)
+ * CSS Prefix: itcs-*
+ * Inter Typography & Clean Modern Light Palette
+ */
+
+:root {
+    /* Light Theme Neutral Surfaces */
+    --itcs-bg-main: #f4f6f8;
+    --itcs-bg-card: #ffffff;
+    --itcs-bg-card-hover: #f8fafc;
+    --itcs-bg-card-subtle: #f8fafc;
+    --itcs-bg-sidebar: #ffffff;
+    --itcs-bg-navbar: #ffffff;
+    --itcs-bg-input: #ffffff;
+
+    /* Light Theme Borders */
+    --itcs-border: #e2e8f0;
+    --itcs-border-subtle: #edf2f7;
+    --itcs-border-focus: #16a34a;
+
+    /* Text Colors (High Contrast Legibility) */
+    --itcs-text-primary: #0f172a;
+    --itcs-text-secondary: #475569;
+    --itcs-text-muted: #94a3b8;
+    --itcs-text-inverse: #ffffff;
+
+    /* Brand & Accent Colors (Kemetra Green & Solid Accents) */
+    --itcs-color-primary: #16a34a;          /* Kemetra Green */
+    --itcs-color-primary-hover: #15803d;
+    --itcs-color-primary-light: #f0fdf4;
+    --itcs-color-primary-border: #bbf7d0;
+
+    --itcs-color-accent-blue: #2563eb;
+    --itcs-color-accent-orange: #ea580c;
+    --itcs-color-accent-purple: #9333ea;
+
+    /* Solid Traffic Signal States */
+    --itcs-color-red: #ef4444;
+    --itcs-color-red-dark: #b91c1c;
+    --itcs-color-red-bg: #fef2f2;
+    --itcs-color-red-border: #fecaca;
+
+    --itcs-color-yellow: #f59e0b;
+    --itcs-color-yellow-dark: #b45309;
+    --itcs-color-yellow-bg: #fffbeb;
+    --itcs-color-yellow-border: #fde68a;
+
+    --itcs-color-green: #10b981;
+    --itcs-color-green-dark: #047857;
+    --itcs-color-green-bg: #ecfdf5;
+    --itcs-color-green-border: #a7f3d0;
+
+    /* Solid Event & Priority Tokens */
+    --itcs-color-emergency: #dc2626;
+    --itcs-color-emergency-bg: #fef2f2;
+    --itcs-color-pedestrian: #0891b2;
+    --itcs-color-pedestrian-bg: #ecfeff;
+    --itcs-color-simulation: #7c3aed;
+    --itcs-color-simulation-bg: #f5f3ff;
+
+    /* Roadway Colors (High contrast schematic on light UI) */
+    --itcs-road-asphalt: #1e293b;
+    --itcs-road-marking-yellow: #fbbf24;
+    --itcs-road-marking-white: #ffffff;
+    --itcs-road-crosswalk: #ffffff;
+
+    /* Spacing Scale */
+    --itcs-space-1: 0.25rem;  /* 4px */
+    --itcs-space-2: 0.5rem;   /* 8px */
+    --itcs-space-3: 0.75rem;  /* 12px */
+    --itcs-space-4: 1rem;     /* 16px */
+    --itcs-space-5: 1.25rem;  /* 20px */
+    --itcs-space-6: 1.5rem;   /* 24px */
+    --itcs-space-8: 2rem;     /* 32px */
+    --itcs-space-10: 2.5rem;  /* 40px */
+    --itcs-space-12: 3rem;    /* 48px */
+
+    /* Typography Scale */
+    --itcs-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --itcs-font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    --itcs-text-xs: 0.75rem;   /* 12px */
+    --itcs-text-sm: 0.875rem;  /* 14px */
+    --itcs-text-base: 1rem;    /* 16px */
+    --itcs-text-lg: 1.125rem;  /* 18px */
+    --itcs-text-xl: 1.25rem;   /* 20px */
+    --itcs-text-2xl: 1.5rem;   /* 24px */
+    --itcs-text-3xl: 1.875rem; /* 30px */
+    --itcs-text-4xl: 2.25rem;  /* 36px */
+
+    /* Radii */
+    --itcs-radius-sm: 6px;
+    --itcs-radius-md: 8px;
+    --itcs-radius-lg: 12px;
+    --itcs-radius-xl: 16px;
+    --itcs-radius-full: 9999px;
+
+    /* Soft Box Shadows (No Gradients) */
+    --itcs-shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --itcs-shadow-elevated: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+    --itcs-shadow-dropdown: 0 10px 15px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.1);
+}

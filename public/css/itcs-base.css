@@ -1,0 +1,344 @@
+/**
+ * JunctionAI Base Layout & Shell (Kemetra Light Theme - NO GRADIENTS)
+ * CSS Prefix: itcs-*
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: var(--itcs-font-family);
+    background-color: var(--itcs-bg-main);
+    color: var(--itcs-text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: var(--itcs-color-primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--itcs-color-primary-hover);
+}
+
+/* Master App Container */
+.itcs-app-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Left Sidebar Navigation (Kemetra Style) */
+.itcs-sidebar {
+    width: 240px;
+    background-color: var(--itcs-bg-sidebar);
+    border-right: 1px solid var(--itcs-border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 20;
+}
+
+.itcs-sidebar-brand {
+    padding: var(--itcs-space-6) var(--itcs-space-5) var(--itcs-space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--itcs-space-3);
+}
+
+.itcs-brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--itcs-text-lg);
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--itcs-text-primary);
+    text-transform: uppercase;
+}
+
+.itcs-brand-icon-mark {
+    width: 28px;
+    height: 28px;
+    background-color: var(--itcs-color-primary);
+    border-radius: var(--itcs-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.itcs-sidebar-menu {
+    list-style: none;
+    padding: var(--itcs-space-3) var(--itcs-space-3);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.itcs-menu-item a {
+    display: flex;
+    align-items: center;
+    gap: var(--itcs-space-3);
+    padding: 10px 14px;
+    border-radius: var(--itcs-radius-md);
+    color: var(--itcs-text-secondary);
+    font-size: var(--itcs-text-sm);
+    font-weight: 500;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.itcs-menu-item a:hover {
+    background-color: var(--itcs-bg-main);
+    color: var(--itcs-text-primary);
+}
+
+/* Active Nav item with Kemetra soft green background highlight */
+.itcs-menu-item.active a {
+    background-color: var(--itcs-color-primary-light);
+    color: var(--itcs-color-primary);
+    font-weight: 600;
+}
+
+.itcs-menu-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itcs-sidebar-bottom {
+    padding: var(--itcs-space-4) var(--itcs-space-3);
+    border-top: 1px solid var(--itcs-border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Main Content Area */
+.itcs-main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Top Navbar (Kemetra Style) */
+.itcs-navbar {
+    height: 70px;
+    background-color: var(--itcs-bg-navbar);
+    border-bottom: 1px solid var(--itcs-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--itcs-space-6);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Left Location Header Box */
+.itcs-nav-location-card {
+    display: flex;
+    align-items: center;
+    gap: var(--itcs-space-3);
+}
+
+.itcs-nav-dropdown-btn {
+    width: 32px;
+    height: 32px;
+    background-color: var(--itcs-bg-main);
+    border: 1px solid var(--itcs-border);
+    border-radius: var(--itcs-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--itcs-text-secondary);
+    font-size: 14px;
+}
+
+.itcs-nav-location-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.itcs-nav-location-title {
+    font-size: var(--itcs-text-base);
+    font-weight: 700;
+    color: var(--itcs-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.itcs-nav-status-sub {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--itcs-text-xs);
+    color: var(--itcs-text-muted);
+}
+
+.itcs-nav-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--itcs-color-primary);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Center Navigation Tabs (Overview / Sensor Log / Settings) */
+.itcs-nav-tabs {
+    display: flex;
+    align-items: center;
+    gap: var(--itcs-space-2);
+}
+
+.itcs-nav-tab {
+    padding: 8px 16px;
+    font-size: var(--itcs-text-sm);
+    font-weight: 600;
+    border-radius: var(--itcs-radius-md);
+    color: var(--itcs-text-secondary);
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.itcs-nav-tab.active {
+    background-color: var(--itcs-color-primary);
+    color: #ffffff;
+}
+
+.itcs-nav-tab:not(.active):hover {
+    background-color: var(--itcs-bg-main);
+    color: var(--itcs-text-primary);
+}
+
+/* Right User Profile & Notifications */
+.itcs-nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--itcs-space-4);
+}
+
+.itcs-nav-bell-btn {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    background-color: var(--itcs-bg-main);
+    border: 1px solid var(--itcs-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--itcs-text-secondary);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.itcs-nav-bell-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    background-color: var(--itcs-color-red);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itcs-user-profile {
+    display: flex;
+    align-items: center;
+    gap: var(--itcs-space-3);
+    padding: 4px 6px;
+    border-radius: var(--itcs-radius-md);
+}
+
+.itcs-user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #0f172a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: var(--itcs-text-sm);
+}
+
+.itcs-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.itcs-user-name {
+    font-size: var(--itcs-text-sm);
+    font-weight: 600;
+    color: var(--itcs-text-primary);
+    line-height: 1.2;
+}
+
+.itcs-user-role-code {
+    font-size: 11px;
+    color: var(--itcs-text-muted);
+    font-family: var(--itcs-font-mono);
+}
+
+/* Page Body Container */
+.itcs-page-content {
+    flex: 1;
+    padding: var(--itcs-space-6);
+}
+
+.itcs-page-header {
+    margin-bottom: var(--itcs-space-5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--itcs-space-4);
+}
+
+.itcs-page-title {
+    font-size: var(--itcs-text-xl);
+    font-weight: 800;
+    color: var(--itcs-text-primary);
+    letter-spacing: -0.01em;
+}
+
+.itcs-page-subtitle {
+    font-size: var(--itcs-text-sm);
+    color: var(--itcs-text-secondary);
+    margin-top: 2px;
+}
+
+/* Footer */
+.itcs-footer {
+    padding: var(--itcs-space-4) var(--itcs-space-6);
+    background-color: var(--itcs-bg-sidebar);
+    border-top: 1px solid var(--itcs-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: var(--itcs-text-xs);
+    color: var(--itcs-text-muted);
+}

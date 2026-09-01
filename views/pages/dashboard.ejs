@@ -1,0 +1,511 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<div class="itcs-main-wrapper">
+    <%- include('../partials/navbar') %>
+
+    <main class="itcs-page-content">
+        <!-- Emergency Active Alert Banner (Shows when emergency priority override is active) -->
+        <div id="itcs-active-emergency-banner" class="itcs-alert itcs-alert-danger" style="display: none; justify-content: space-between; margin-bottom: var(--itcs-space-4);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <strong id="itcs-emerg-banner-text">Active Emergency Priority Override in Progress</strong>
+            </div>
+            <button class="itcs-btn itcs-btn-secondary itcs-btn-sm" onclick="window.itcsControls.clearEmergency()">
+                Release Preemption Early
+            </button>
+        </div>
+
+        <!-- Master Two-Column Dashboard Layout (Kemetra Style) -->
+        <div class="itcs-grid itcs-grid-cols-12" style="gap: var(--itcs-space-5);">
+
+            <!-- LEFT COLUMN (5 Cols): Location Card + Visual Map Schematic Panel -->
+            <div class="itcs-col-span-5" style="display: flex; flex-direction: column; gap: var(--itcs-space-4);">
+
+                <!-- Sublocation Breadcrumb Card -->
+                <div class="itcs-card" style="padding: 12px 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; flex-direction: column;">
+                            <span style="font-size: 11px; font-weight: 600; color: var(--itcs-text-muted); text-transform: uppercase;">Location</span>
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: var(--itcs-text-sm); font-weight: 700; color: var(--itcs-text-primary);">
+                                <span class="itcs-loc-dot"></span>
+                                <span>Ekpo-Abasi Street</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; text-align: right;">
+                            <span style="font-size: 11px; font-weight: 600; color: var(--itcs-text-muted); text-transform: uppercase;">Sublocation</span>
+                            <span style="font-size: 12px; font-weight: 600; color: var(--itcs-text-secondary);">UNICROSS & Mayne (ID: 7C2)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Central Visual Map-Style Intersection Panel -->
+                <div class="itcs-intersection-panel">
+                    <div class="itcs-map-header-bar">
+                        <div style="font-size: var(--itcs-text-xs); font-weight: 700; color: var(--itcs-text-primary); text-transform: uppercase; letter-spacing: 0.05em;">
+                            Top-Down Intersection Map
+                        </div>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="itcs-btn itcs-btn-danger itcs-btn-sm" onclick="window.itcsControls.openModal('itcs-emergency-modal')">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                <span>Preempt</span>
+                            </button>
+                            <button class="itcs-btn itcs-btn-info itcs-btn-sm" onclick="window.itcsControls.requestPedestrianCrossing()">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg>
+                                <span>Pedestrian</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="itcs-map-canvas-wrap">
+                        <!-- Floating Map Controls -->
+                        <div class="itcs-map-floating-controls">
+                            <div class="itcs-map-ctrl-btn" title="Search Corridor">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </div>
+                            <div class="itcs-map-ctrl-btn" title="Zoom In">+</div>
+                            <div class="itcs-map-ctrl-btn" title="Zoom Out">-</div>
+                            <div class="itcs-map-ctrl-btn" title="North Orientation">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+                            </div>
+                        </div>
+
+                        <!-- 4-Way Crossroads Graphic -->
+                        <div id="itcs-intersection-map" class="itcs-intersection-map">
+                            <!-- Quadrant: Top Left (UNICROSS Campus) -->
+                            <div class="itcs-quadrant itcs-quad-crutech">
+                                <div class="itcs-quad-label">UNICROSS Campus</div>
+                                <div style="font-size: 9px; color: var(--itcs-text-muted);">Main Gate</div>
+                            </div>
+
+                            <!-- North Arm (Lane 1: Ekpo-Abasi Northbound) -->
+                            <div class="itcs-road-arm itcs-road-north">
+                                <div class="itcs-lane-overlay itcs-overlay-north">
+                                    <div class="itcs-lane-name-tag">L1: Ekpo-Abasi NB</div>
+                                    <div class="itcs-lane-density-row">
+                                        <span>Density: <strong id="itcs-lane-density-1"><%= state.lanes[0].density %>%</strong></span>
+                                        <span id="itcs-lane-queue-1"><%= state.lanes[0].queueCount %> veh</span>
+                                    </div>
+                                    <div class="itcs-progress-bar" style="margin-top: 3px;">
+                                        <div id="itcs-lane-fill-1" class="itcs-progress-fill itcs-progress-fill-green" style="width: <%= state.lanes[0].density %>%;"></div>
+                                    </div>
+                                    <span id="itcs-lane-emerg-badge-1" class="itcs-badge itcs-badge-red" style="display: none; margin-top: 2px;">PRIORITY</span>
+                                </div>
+
+                                <div class="itcs-signal-head itcs-signal-north">
+                                    <div id="itcs-signal-red-1" class="itcs-aspect-light itcs-aspect-red <%= state.lanes[0].phase === 'red' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-yellow-1" class="itcs-aspect-light itcs-aspect-yellow <%= state.lanes[0].phase === 'yellow' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-green-1" class="itcs-aspect-light itcs-aspect-green <%= state.lanes[0].phase === 'green' ? 'active' : '' %>"></div>
+                                </div>
+                            </div>
+
+                            <!-- Quadrant: Top Right (Commercial Axis) -->
+                            <div class="itcs-quadrant itcs-quad-commercial">
+                                <div class="itcs-quad-label">Watt Market Link</div>
+                                <div style="font-size: 9px; color: var(--itcs-text-muted);">Commercial Hub</div>
+                            </div>
+
+                            <!-- West Arm (Lane 4: Saintaggers Westbound) -->
+                            <div class="itcs-road-arm itcs-road-west">
+                                <div class="itcs-lane-overlay itcs-overlay-west">
+                                    <div class="itcs-lane-name-tag">L4: Saintaggers WB</div>
+                                    <div class="itcs-lane-density-row">
+                                        <span>Density: <strong id="itcs-lane-density-4"><%= state.lanes[3].density %>%</strong></span>
+                                        <span id="itcs-lane-queue-4"><%= state.lanes[3].queueCount %> veh</span>
+                                    </div>
+                                    <div class="itcs-progress-bar" style="margin-top: 3px;">
+                                        <div id="itcs-lane-fill-4" class="itcs-progress-fill itcs-progress-fill-yellow" style="width: <%= state.lanes[3].density %>%;"></div>
+                                    </div>
+                                    <span id="itcs-lane-emerg-badge-4" class="itcs-badge itcs-badge-red" style="display: none; margin-top: 2px;">PRIORITY</span>
+                                </div>
+
+                                <div class="itcs-signal-head itcs-signal-west">
+                                    <div id="itcs-signal-red-4" class="itcs-aspect-light itcs-aspect-red <%= state.lanes[3].phase === 'red' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-yellow-4" class="itcs-aspect-light itcs-aspect-yellow <%= state.lanes[3].phase === 'yellow' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-green-4" class="itcs-aspect-light itcs-aspect-green <%= state.lanes[3].phase === 'green' ? 'active' : '' %>"></div>
+                                </div>
+                            </div>
+
+                            <!-- Center Junction Box with Pin Marker -->
+                            <div class="itcs-road-center">
+                                <div id="itcs-ped-signal-box" class="itcs-ped-box itcs-ped-dont-walk" style="top: 6px;">
+                                    <span>DON'T WALK</span>
+                                </div>
+
+                                <div class="itcs-center-pin-hub">
+                                    <div class="itcs-center-pulse-dot"></div>
+                                    <div class="itcs-junction-hub-badge">
+                                        <div class="itcs-junction-hub-title" id="itcs-hub-phase"><%= state.currentPhase.phase.toUpperCase() %></div>
+                                        <div id="itcs-hub-countdown" class="itcs-junction-hub-timer"><%= state.currentPhase.secondsRemaining %>s</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- East Arm (Lane 3: Mayne Avenue Eastbound) -->
+                            <div class="itcs-road-arm itcs-road-east">
+                                <div class="itcs-lane-overlay itcs-overlay-east">
+                                    <div class="itcs-lane-name-tag">L3: Mayne Ave EB</div>
+                                    <div class="itcs-lane-density-row">
+                                        <span>Density: <strong id="itcs-lane-density-3"><%= state.lanes[2].density %>%</strong></span>
+                                        <span id="itcs-lane-queue-3"><%= state.lanes[2].queueCount %> veh</span>
+                                    </div>
+                                    <div class="itcs-progress-bar" style="margin-top: 3px;">
+                                        <div id="itcs-lane-fill-3" class="itcs-progress-fill itcs-progress-fill-green" style="width: <%= state.lanes[2].density %>%;"></div>
+                                    </div>
+                                    <span id="itcs-lane-emerg-badge-3" class="itcs-badge itcs-badge-red" style="display: none; margin-top: 2px;">PRIORITY</span>
+                                </div>
+
+                                <div class="itcs-signal-head itcs-signal-east">
+                                    <div id="itcs-signal-red-3" class="itcs-aspect-light itcs-aspect-red <%= state.lanes[2].phase === 'red' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-yellow-3" class="itcs-aspect-light itcs-aspect-yellow <%= state.lanes[2].phase === 'yellow' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-green-3" class="itcs-aspect-light itcs-aspect-green <%= state.lanes[2].phase === 'green' ? 'active' : '' %>"></div>
+                                </div>
+                            </div>
+
+                            <!-- Quadrant: Bottom Left (Anantigha Coastal) -->
+                            <div class="itcs-quadrant itcs-quad-anantigha">
+                                <div class="itcs-quad-label">Anantigha Coastal</div>
+                                <div style="font-size: 9px; color: var(--itcs-text-muted);">Bypass</div>
+                            </div>
+
+                            <!-- South Arm (Lane 2: Ekpo-Abasi Southbound) -->
+                            <div class="itcs-road-arm itcs-road-south">
+                                <div class="itcs-lane-overlay itcs-overlay-south">
+                                    <div class="itcs-lane-name-tag">L2: Ekpo-Abasi SB</div>
+                                    <div class="itcs-lane-density-row">
+                                        <span>Density: <strong id="itcs-lane-density-2"><%= state.lanes[1].density %>%</strong></span>
+                                        <span id="itcs-lane-queue-2"><%= state.lanes[1].queueCount %> veh</span>
+                                    </div>
+                                    <div class="itcs-progress-bar" style="margin-top: 3px;">
+                                        <div id="itcs-lane-fill-2" class="itcs-progress-fill itcs-progress-fill-green" style="width: <%= state.lanes[1].density %>%;"></div>
+                                    </div>
+                                    <span id="itcs-lane-emerg-badge-2" class="itcs-badge itcs-badge-red" style="display: none; margin-top: 2px;">PRIORITY</span>
+                                </div>
+
+                                <div class="itcs-signal-head itcs-signal-south">
+                                    <div id="itcs-signal-red-2" class="itcs-aspect-light itcs-aspect-red <%= state.lanes[1].phase === 'red' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-yellow-2" class="itcs-aspect-light itcs-aspect-yellow <%= state.lanes[1].phase === 'yellow' ? 'active' : '' %>"></div>
+                                    <div id="itcs-signal-green-2" class="itcs-aspect-light itcs-aspect-green <%= state.lanes[1].phase === 'green' ? 'active' : '' %>"></div>
+                                </div>
+                            </div>
+
+                            <!-- Quadrant: Bottom Right (Mary Slessor Axis) -->
+                            <div class="itcs-quadrant itcs-quad-target">
+                                <div class="itcs-quad-label">Mary Slessor Ave</div>
+                                <div style="font-size: 9px; color: var(--itcs-text-muted);">Target St</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Phase Progress Footer -->
+                    <div style="padding: 10px 16px; background-color: #ffffff; border-top: 1px solid var(--itcs-border-subtle);">
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--itcs-text-muted); margin-bottom: 4px;">
+                            <span>Active: <strong id="itcs-active-lane-name" style="color: var(--itcs-text-primary);"><%= state.currentPhase.activeLaneName %></strong></span>
+                            <span>Cycle Allocation: <%= state.currentPhase.totalDuration %>s</span>
+                        </div>
+                        <div class="itcs-progress-bar" style="height: 6px;">
+                            <div id="itcs-phase-progress" class="itcs-progress-fill itcs-progress-fill-green" style="width: <%= state.currentPhase.progressPercent %>%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN (7 Cols): Key Metrics + Traffic Insights + Events / Status Cards -->
+            <div class="itcs-col-span-7" style="display: flex; flex-direction: column; gap: var(--itcs-space-4);">
+
+                <!-- 1. KEY METRICS HEADER & 6-CARD GRID -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h2 style="font-size: var(--itcs-text-base); font-weight: 800; color: var(--itcs-text-primary);">Key Metrics</h2>
+                        <span class="itcs-badge itcs-badge-blue">Last 24 Hours</span>
+                    </div>
+
+                    <div class="itcs-grid itcs-grid-cols-3" style="gap: 10px;">
+                        <!-- Metric 1: Active Lanes -->
+                        <div class="itcs-stat-card-kemetra">
+                            <div class="itcs-stat-icon-wrap itcs-stat-icon-blue">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                            </div>
+                            <div class="itcs-stat-body">
+                                <div class="itcs-stat-label-kemetra">Active Lanes</div>
+                                <div class="itcs-stat-value-kemetra">4 <span class="itcs-stat-sub-kemetra">/ 4 Online</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 2: Adaptive Efficiency -->
+                        <div class="itcs-stat-card-kemetra">
+                            <div class="itcs-stat-icon-wrap itcs-stat-icon-purple">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                            </div>
+                            <div class="itcs-stat-body">
+                                <div class="itcs-stat-label-kemetra">Adaptive Score</div>
+                                <div class="itcs-stat-value-kemetra">94% <span class="itcs-stat-sub-kemetra">Optimum</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 3: Cleared Vehicles -->
+                        <div class="itcs-stat-card-kemetra">
+                            <div class="itcs-stat-icon-wrap itcs-stat-icon-cyan">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                            </div>
+                            <div class="itcs-stat-body">
+                                <div class="itcs-stat-label-kemetra">Vehicles Cleared</div>
+                                <div class="itcs-stat-value-kemetra" id="itcs-metric-cleared"><%= state.metrics.totalVehiclesCleared.toLocaleString() %></div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 4: Congestion Density -->
+                        <div class="itcs-stat-card-kemetra">
+                            <div class="itcs-stat-icon-wrap itcs-stat-icon-orange">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            </div>
+                            <div class="itcs-stat-body">
+                                <div class="itcs-stat-label-kemetra">Junction Density</div>
+                                <div class="itcs-stat-value-kemetra" id="itcs-metric-avg-density"><%= state.metrics.avgJunctionDensity %>%</div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 5: Emergency Preemption -->
+                        <div class="itcs-stat-card-kemetra">
+                            <div class="itcs-stat-icon-wrap itcs-stat-icon-red">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <div class="itcs-stat-body">
+                                <div class="itcs-stat-label-kemetra">Emergency Priority</div>
+                                <div class="itcs-stat-value-kemetra" id="itcs-metric-preempt-count" style="color: var(--itcs-color-emergency);"><%= state.metrics.totalPreemptionsExecuted %> <span class="itcs-stat-sub-kemetra">/ 24 Hrs</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Metric 6: Pedestrian Phases -->
+                        <div class="itcs-stat-card-kemetra">
+                            <div class="itcs-stat-icon-wrap itcs-stat-icon-green">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg>
+                            </div>
+                            <div class="itcs-stat-body">
+                                <div class="itcs-stat-label-kemetra">Pedestrian Phases</div>
+                                <div class="itcs-stat-value-kemetra"><%= state.metrics.totalPedestrianPhases %> <span class="itcs-stat-sub-kemetra">/ 24 Hrs</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. TRAFFIC INSIGHTS DUAL-CHART ROW -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h2 style="font-size: var(--itcs-text-base); font-weight: 800; color: var(--itcs-text-primary);">Traffic Insights</h2>
+                        <div style="display: flex; gap: 6px;">
+                            <span class="itcs-badge itcs-badge-blue">Last 3 Hours</span>
+                            <span class="itcs-badge itcs-badge-green">Ekpo-Abasi NB</span>
+                            <button class="itcs-btn itcs-btn-primary itcs-btn-sm" style="padding: 2px 8px; font-size: 11px;" onclick="window.location.reload()">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                <span>Sync</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="itcs-grid itcs-grid-cols-2" style="gap: 12px;">
+                        <!-- Insights Card 1: Density & Queue Volume -->
+                        <div class="itcs-insight-card">
+                            <div class="itcs-insight-header">
+                                <div class="itcs-insight-title">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                    <span>Corridor Density (%)</span>
+                                </div>
+                                <div class="itcs-insight-actions">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                </div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--itcs-text-muted); margin-bottom: 6px;">
+                                Uptime: <span id="itcs-metric-uptime">0m 0s</span>
+                            </div>
+
+                            <div class="itcs-insight-value-row">
+                                <div class="itcs-insight-big-num">
+                                    <span><%= state.metrics.avgJunctionDensity %></span>
+                                    <span class="itcs-insight-unit">% DENSITY</span>
+                                </div>
+                                <div class="itcs-insight-legend">
+                                    <div class="itcs-legend-item"><span class="itcs-legend-dot-orange"></span><span>Peak</span></div>
+                                    <div class="itcs-legend-item"><span class="itcs-legend-dot-blue"></span><span>Average</span></div>
+                                </div>
+                            </div>
+
+                            <div style="height: 120px; position: relative;">
+                                <canvas id="itcs-density-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Insights Card 2: Allocated Dynamic Green Phase -->
+                        <div class="itcs-insight-card">
+                            <div class="itcs-insight-header">
+                                <div class="itcs-insight-title">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                    <span>Dynamic Green Allocation</span>
+                                </div>
+                                <div class="itcs-insight-actions">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                </div>
+                            </div>
+                            <div style="font-size: 10px; color: var(--itcs-text-muted); margin-bottom: 6px;">
+                                Bounds: <%= state.config.min_green_seconds %>s &bull; <%= state.config.max_green_seconds %>s
+                            </div>
+
+                            <div class="itcs-insight-value-row">
+                                <div class="itcs-insight-big-num" style="color: #2563eb;">
+                                    <span><%= state.currentPhase.totalDuration %></span>
+                                    <span class="itcs-insight-unit">SEC GREEN</span>
+                                </div>
+                                <div class="itcs-insight-legend">
+                                    <div class="itcs-legend-item"><span class="itcs-legend-dot-blue"></span><span>Allocated</span></div>
+                                    <div class="itcs-legend-item"><span class="itcs-legend-dot-green"></span><span>Cleared</span></div>
+                                </div>
+                            </div>
+
+                            <div style="height: 120px; position: relative;">
+                                <canvas id="itcs-hourly-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. BOTTOM ROW: EVENTS CARD + CORRIDORS STATUS (CTECC-STYLE) CARD -->
+                <div class="itcs-grid itcs-grid-cols-2" style="gap: 12px;">
+
+                    <!-- Card 1: Events Card (Kemetra Style with Segmented Severity Bar) -->
+                    <div class="itcs-card" style="padding: 14px 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--itcs-text-primary);">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                <span>Events & Priority</span>
+                            </div>
+                            <span style="font-size: 11px; font-family: var(--itcs-font-mono); color: var(--itcs-text-muted);">ID: EKPO-EP-24</span>
+                        </div>
+
+                        <div style="font-size: 13px; font-weight: 700; color: var(--itcs-text-primary); margin-top: 4px;">
+                            Emergency Priority Status
+                        </div>
+
+                        <!-- Segmented Severity Bar -->
+                        <div class="itcs-severity-bar">
+                            <div class="itcs-severity-segment itcs-severity-red"></div>
+                            <div class="itcs-severity-segment itcs-severity-orange"></div>
+                            <div class="itcs-severity-segment itcs-severity-yellow"></div>
+                            <div class="itcs-severity-segment itcs-severity-gray"></div>
+                            <div class="itcs-severity-segment itcs-severity-gray"></div>
+                        </div>
+
+                        <p style="font-size: 11px; color: var(--itcs-text-secondary); line-height: 1.4; margin-bottom: 8px;">
+                            <%= state.emergencyState.isActive ? 'Active priority clearance granted. Conflicting phases transitioning to all-red.' : 'Junction operating in standard adaptive mode. Zero collision incidents reported.' %>
+                        </p>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 10px; color: var(--itcs-text-secondary); background-color: var(--itcs-bg-card-subtle); padding: 8px; border-radius: var(--itcs-radius-sm); border: 1px solid var(--itcs-border-subtle);">
+                            <div>Emergency Override: <strong style="color: <%= state.emergencyState.isActive ? 'var(--itcs-color-red)' : 'var(--itcs-text-primary)' %>"><%= state.emergencyState.isActive ? 'Active' : 'Standby' %></strong></div>
+                            <div>Clearance Buffer: <strong>3s Yellow</strong></div>
+                            <div>Pedestrian Mode: <strong>Bounded (45s)</strong></div>
+                            <div>Empty Lane Protect: <strong style="color: var(--itcs-color-primary)">Engaged</strong></div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Approach Corridors Status (CTECC-Style List) -->
+                    <div class="itcs-card" style="padding: 14px 16px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--itcs-text-primary);">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                <span>Approach Corridor Status</span>
+                            </div>
+                            <span style="font-size: 11px; font-family: var(--itcs-font-mono); color: var(--itcs-text-muted);">Junction: 7C2</span>
+                        </div>
+
+                        <div class="itcs-status-list">
+                            <div class="itcs-status-row">
+                                <span class="itcs-status-name">Ekpo-Abasi Northbound (UNICROSS)</span>
+                                <span id="itcs-corridor-pill-1" class="itcs-status-pill <%= state.lanes[0].phase === 'green' ? 'itcs-pill-green' : (state.lanes[0].phase === 'yellow' ? 'itcs-pill-amber' : 'itcs-pill-red') %>">
+                                    <%= state.lanes[0].phase.toUpperCase() %>
+                                </span>
+                            </div>
+
+                            <div class="itcs-status-row">
+                                <span class="itcs-status-name">Ekpo-Abasi Southbound (Commercial)</span>
+                                <span id="itcs-corridor-pill-2" class="itcs-status-pill <%= state.lanes[1].phase === 'green' ? 'itcs-pill-green' : (state.lanes[1].phase === 'yellow' ? 'itcs-pill-amber' : 'itcs-pill-red') %>">
+                                    <%= state.lanes[1].phase.toUpperCase() %>
+                                </span>
+                            </div>
+
+                            <div class="itcs-status-row">
+                                <span class="itcs-status-name">Mayne Avenue Eastbound (Anantigha)</span>
+                                <span id="itcs-corridor-pill-3" class="itcs-status-pill <%= state.lanes[2].phase === 'green' ? 'itcs-pill-green' : (state.lanes[2].phase === 'yellow' ? 'itcs-pill-amber' : 'itcs-pill-red') %>">
+                                    <%= state.lanes[2].phase.toUpperCase() %>
+                                </span>
+                            </div>
+
+                            <div class="itcs-status-row">
+                                <span class="itcs-status-name">Saintaggers Westbound (Mary Slessor)</span>
+                                <span id="itcs-corridor-pill-4" class="itcs-status-pill <%= state.lanes[3].phase === 'green' ? 'itcs-pill-green' : (state.lanes[3].phase === 'yellow' ? 'itcs-pill-amber' : 'itcs-pill-red') %>">
+                                    <%= state.lanes[3].phase.toUpperCase() %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Emergency Preemption Modal -->
+    <div id="itcs-emergency-modal" class="itcs-modal-backdrop">
+        <div class="itcs-modal">
+            <div class="itcs-card-header">
+                <div class="itcs-card-title" style="color: var(--itcs-color-emergency);">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span>Emergency Vehicle Priority Dispatch</span>
+                </div>
+                <button class="itcs-btn itcs-btn-secondary itcs-btn-sm" onclick="window.itcsControls.closeModal('itcs-emergency-modal')">✕</button>
+            </div>
+
+            <p style="font-size: var(--itcs-text-sm); color: var(--itcs-text-secondary); margin-bottom: var(--itcs-space-4);">
+                Select the approach corridor to trigger safe yellow clearance of conflicting lanes and grant immediate green priority.
+            </p>
+
+            <div class="itcs-form-group">
+                <label class="itcs-form-label">Target Approach Corridor</label>
+                <select id="modal-emergency-lane" class="itcs-form-select">
+                    <% state.lanes.forEach(l => { %>
+                        <option value="<%= l.id %>"><%= l.name %> (<%= l.direction %>)</option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="itcs-form-group">
+                <label class="itcs-form-label">Priority Vehicle Type</label>
+                <select id="modal-emergency-type" class="itcs-form-select">
+                    <option value="Ambulance Medical Transit">Ambulance (UNICROSS Clinic / General Hospital)</option>
+                    <option value="Fire Service Response">Fire Service Emergency (Calabar South Fire Station)</option>
+                    <option value="Police Security Escort">Police Security Escort</option>
+                </select>
+            </div>
+
+            <div class="itcs-form-group">
+                <label class="itcs-form-label">Operational Notes</label>
+                <input type="text" id="modal-emergency-notes" class="itcs-form-input" placeholder="e.g. Critical patient transfer heading towards Mary Slessor round-about">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: var(--itcs-space-3); margin-top: var(--itcs-space-5);">
+                <button class="itcs-btn itcs-btn-secondary" onclick="window.itcsControls.closeModal('itcs-emergency-modal')">Cancel</button>
+                <button class="itcs-btn itcs-btn-danger" onclick="
+                    const lane = document.getElementById('modal-emergency-lane').value;
+                    const type = document.getElementById('modal-emergency-type').value;
+                    const notes = document.getElementById('modal-emergency-notes').value;
+                    window.itcsControls.triggerEmergency(lane, type, notes);
+                ">
+                    Execute Priority Clearance &rarr;
+                </button>
+            </div>
+        </div>
+    </div>
+
+<%- include('../partials/footer') %>
+<!-- Charts Controller for Traffic Insights -->
+<script src="/js/itcs-charts.js"></script>

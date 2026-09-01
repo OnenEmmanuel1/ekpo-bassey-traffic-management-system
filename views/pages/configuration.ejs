@@ -1,0 +1,110 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<div class="itcs-main-wrapper">
+    <%- include('../partials/navbar') %>
+
+    <main class="itcs-page-content">
+        <div class="itcs-page-header">
+            <div>
+                <h1 class="itcs-page-title">Rules Engine & System Parameters</h1>
+                <p class="itcs-page-subtitle">
+                    Configure adaptive bounds, weighting exponents, preemption limits, and sensor simulation rates
+                </p>
+            </div>
+        </div>
+
+        <form id="itcs-config-form">
+            <div class="itcs-grid itcs-grid-cols-2" style="margin-bottom: var(--itcs-space-5);">
+                <!-- Card 1: Adaptive Signal Timing Bounds -->
+                <div class="itcs-card">
+                    <div class="itcs-card-header">
+                        <div class="itcs-card-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span>Adaptive Timing & Phase Bounds</span>
+                        </div>
+                        <span class="itcs-badge itcs-badge-blue">Core Algorithm</span>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="min_green_seconds">Minimum Green Duration (Seconds)</label>
+                        <input type="number" id="min_green_seconds" name="min_green_seconds" class="itcs-form-input" min="5" max="30" value="<%= state.config.min_green_seconds %>" required>
+                        <small style="color: var(--itcs-text-muted); font-size: 11px;">Prevents Empty Lane Syndrome by capping low-density greens.</small>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="max_green_seconds">Maximum Green Duration (Seconds)</label>
+                        <input type="number" id="max_green_seconds" name="max_green_seconds" class="itcs-form-input" min="20" max="120" value="<%= state.config.max_green_seconds %>" required>
+                        <small style="color: var(--itcs-text-muted); font-size: 11px;">Maximum clearance window allocated to high-density queues.</small>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="yellow_seconds">Yellow Clearance Duration (Seconds)</label>
+                        <input type="number" id="yellow_seconds" name="yellow_seconds" class="itcs-form-input" min="3" max="8" value="<%= state.config.yellow_seconds %>" required>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="all_red_seconds">All-Red Clearance Buffer (Seconds)</label>
+                        <input type="number" id="all_red_seconds" name="all_red_seconds" class="itcs-form-input" min="1" max="6" value="<%= state.config.all_red_seconds %>" required>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="density_weight_factor">Density Weighting Factor (Exponent)</label>
+                        <input type="number" step="0.1" id="density_weight_factor" name="density_weight_factor" class="itcs-form-input" min="0.5" max="3.0" value="<%= state.config.density_weight_factor %>" required>
+                        <small style="color: var(--itcs-text-muted); font-size: 11px;">Controls the steepness of dynamic green scaling relative to density.</small>
+                    </div>
+                </div>
+
+                <!-- Card 2: Emergency, Pedestrian & Simulation Parameters -->
+                <div class="itcs-card">
+                    <div class="itcs-card-header">
+                        <div class="itcs-card-title">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            <span>Preemption, Pedestrians & Simulation</span>
+                        </div>
+                        <span class="itcs-badge itcs-badge-purple">Simulated Feed</span>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="emergency_max_duration">Emergency Preemption Max Hold (Seconds)</label>
+                        <input type="number" id="emergency_max_duration" name="emergency_max_duration" class="itcs-form-input" min="15" max="90" value="<%= state.config.emergency_max_duration %>" required>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="pedestrian_walk_duration">Pedestrian Walk Phase Duration (Seconds)</label>
+                        <input type="number" id="pedestrian_walk_duration" name="pedestrian_walk_duration" class="itcs-form-input" min="10" max="45" value="<%= state.config.pedestrian_walk_duration %>" required>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="pedestrian_max_wait_seconds">Pedestrian Max Bounded Wait (Seconds)</label>
+                        <input type="number" id="pedestrian_max_wait_seconds" name="pedestrian_max_wait_seconds" class="itcs-form-input" min="20" max="90" value="<%= state.config.pedestrian_max_wait_seconds %>" required>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="sim_sensor_interval_ms">Simulation Tick Interval (Milliseconds)</label>
+                        <input type="number" step="500" id="sim_sensor_interval_ms" name="sim_sensor_interval_ms" class="itcs-form-input" min="1000" max="10000" value="<%= state.config.sim_sensor_interval_ms %>" required>
+                    </div>
+
+                    <div class="itcs-form-group">
+                        <label class="itcs-form-label" for="sim_emergency_probability">Stochastic Emergency Detection Probability (0.01 - 0.20)</label>
+                        <input type="number" step="0.01" id="sim_emergency_probability" name="sim_emergency_probability" class="itcs-form-input" min="0.00" max="0.50" value="<%= state.config.sim_emergency_probability %>" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="itcs-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 700; font-size: var(--itcs-text-sm);">Hot-Reload System Rules</div>
+                    <div style="font-size: var(--itcs-text-xs); color: var(--itcs-text-muted);">Saving will immediately update both the database and running engine state machine.</div>
+                </div>
+                <button type="submit" class="itcs-btn itcs-btn-primary itcs-btn-lg">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    <span>Save & Apply Rules</span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+<%- include('../partials/footer') %>
+<!-- Config Form Controller -->
+<script src="/js/itcs-config.js"></script>

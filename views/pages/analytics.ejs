@@ -1,0 +1,142 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<div class="itcs-main-wrapper">
+    <%- include('../partials/navbar') %>
+
+    <main class="itcs-page-content">
+        <div class="itcs-page-header">
+            <div>
+                <h1 class="itcs-page-title">Traffic Analytics & Optimization</h1>
+                <p class="itcs-page-subtitle">
+                    Empirical performance metrics & queue clearance rates for Ekpo-Abasi Junction
+                </p>
+            </div>
+            <div>
+                <a href="/reports" class="itcs-btn itcs-btn-secondary itcs-btn-sm">
+                    Export Raw Datasets (CSV) &rarr;
+                </a>
+            </div>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="itcs-grid itcs-grid-cols-3" style="margin-bottom: var(--itcs-space-5);">
+            <div class="itcs-stat-card-kemetra">
+                <div class="itcs-stat-icon-wrap itcs-stat-icon-blue">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div class="itcs-stat-body">
+                    <div class="itcs-stat-label-kemetra">Average Vehicle Delay</div>
+                    <div class="itcs-stat-value-kemetra">18.4s</div>
+                    <div class="itcs-stat-sub-kemetra">-42% reduction vs static fixed timer</div>
+                </div>
+            </div>
+
+            <div class="itcs-stat-card-kemetra">
+                <div class="itcs-stat-icon-wrap itcs-stat-icon-green">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
+                <div class="itcs-stat-body">
+                    <div class="itcs-stat-label-kemetra">Empty Lane Time Reclaimed</div>
+                    <div class="itcs-stat-value-kemetra">34.8m <span class="itcs-stat-sub-kemetra">/ Hr</span></div>
+                    <div class="itcs-stat-sub-kemetra">Wasted green phase eliminated</div>
+                </div>
+            </div>
+
+            <div class="itcs-stat-card-kemetra">
+                <div class="itcs-stat-icon-wrap itcs-stat-icon-red">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
+                <div class="itcs-stat-body">
+                    <div class="itcs-stat-label-kemetra">Preemption Clearance Latency</div>
+                    <div class="itcs-stat-value-kemetra">3.2s <span class="itcs-stat-sub-kemetra">avg</span></div>
+                    <div class="itcs-stat-sub-kemetra">Mean transition from conflict to priority green</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="itcs-grid itcs-grid-cols-2" style="margin-bottom: var(--itcs-space-5);">
+            <!-- Line Chart: Density Over Time -->
+            <div class="itcs-card">
+                <div class="itcs-card-header">
+                    <div class="itcs-card-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        <span>Approach Vehicle Density Trends (%)</span>
+                    </div>
+                    <span class="itcs-badge itcs-badge-purple">Simulated Feed</span>
+                </div>
+                <div style="height: 260px; position: relative;">
+                    <canvas id="itcs-density-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar/Line Chart: Dynamic Green Allocation -->
+            <div class="itcs-card">
+                <div class="itcs-card-header">
+                    <div class="itcs-card-title">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        <span>Dynamic Green Allocation Bounds (Seconds)</span>
+                    </div>
+                    <span class="itcs-badge itcs-badge-blue">24-Hour Profile</span>
+                </div>
+                <div style="height: 260px; position: relative;">
+                    <canvas id="itcs-hourly-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lane Comparison Breakdown Table -->
+        <div class="itcs-card">
+            <div class="itcs-card-header">
+                <div class="itcs-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Corridor Level of Service (LOS) & Saturation Analysis</span>
+                </div>
+                <span class="itcs-badge itcs-badge-green">Optimal Flow</span>
+            </div>
+
+            <div class="itcs-table-container">
+                <table class="itcs-table">
+                    <thead>
+                        <tr>
+                            <th>Corridor Name</th>
+                            <th>Direction</th>
+                            <th>Approach Context</th>
+                            <th>Current Density</th>
+                            <th>Calculated Green</th>
+                            <th>Est. Queue</th>
+                            <th>Avg. Delay</th>
+                            <th>Level of Service</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% state.lanes.forEach(l => { %>
+                            <tr>
+                                <td><strong><%= l.name %></strong></td>
+                                <td><span class="itcs-badge itcs-badge-blue"><%= l.direction %></span></td>
+                                <td style="color: var(--itcs-text-secondary);"><%= l.approachDescription %></td>
+                                <td><strong><%= l.density %>%</strong></td>
+                                <td><span class="itcs-badge itcs-badge-green"><%= l.performance.vehiclesCleared * 2 %>s</span></td>
+                                <td><%= l.performance.estimatedQueueVehicles %> vehicles</td>
+                                <td><%= l.performance.estimatedDelaySeconds %> seconds</td>
+                                <td>
+                                    <% if (l.density >= 75) { %>
+                                        <span class="itcs-badge itcs-badge-red">LOS D (Congested)</span>
+                                    <% } else if (l.density >= 45) { %>
+                                        <span class="itcs-badge itcs-badge-yellow">LOS B (Stable)</span>
+                                    <% } else { %>
+                                        <span class="itcs-badge itcs-badge-green">LOS A (Free Flow)</span>
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+<%- include('../partials/footer') %>
+<!-- Charts Controller -->
+<script src="/js/itcs-charts.js"></script>

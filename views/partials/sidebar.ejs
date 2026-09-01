@@ -1,0 +1,71 @@
+<!-- Left Sidebar Navigation (Kemetra Light Style) -->
+<aside class="itcs-sidebar">
+    <div class="itcs-sidebar-brand">
+        <div class="itcs-brand-logo">
+            <div class="itcs-brand-icon-mark">J</div>
+            <span>JunctionAI</span>
+        </div>
+    </div>
+
+    <ul class="itcs-sidebar-menu">
+        <li class="itcs-menu-item <%= (typeof activeNav !== 'undefined' && activeNav === 'dashboard') ? 'active' : '' %>">
+            <a href="/dashboard">
+                <span class="itcs-menu-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </span>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="itcs-menu-item <%= (typeof activeNav !== 'undefined' && activeNav === 'analytics') ? 'active' : '' %>">
+            <a href="/analytics">
+                <span class="itcs-menu-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                </span>
+                <span>Traffic Insights</span>
+            </a>
+        </li>
+        <li class="itcs-menu-item <%= (typeof activeNav !== 'undefined' && activeNav === 'preemption') ? 'active' : '' %>">
+            <a href="/preemption">
+                <span class="itcs-menu-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </span>
+                <span>Events & Priority</span>
+            </a>
+        </li>
+        <li class="itcs-menu-item <%= (typeof activeNav !== 'undefined' && activeNav === 'pedestrian') ? 'active' : '' %>">
+            <a href="/pedestrian">
+                <span class="itcs-menu-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg>
+                </span>
+                <span>Pedestrian Safety</span>
+            </a>
+        </li>
+        <li class="itcs-menu-item <%= (typeof activeNav !== 'undefined' && activeNav === 'configuration') ? 'active' : '' %>">
+            <a href="/configuration">
+                <span class="itcs-menu-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </span>
+                <span>Rules & Timing</span>
+            </a>
+        </li>
+        <li class="itcs-menu-item <%= (typeof activeNav !== 'undefined' && activeNav === 'reports') ? 'active' : '' %>">
+            <a href="/reports">
+                <span class="itcs-menu-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </span>
+                <span>Audit Reports</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="itcs-sidebar-bottom">
+        <a href="/configuration" class="itcs-menu-item" style="color: var(--itcs-text-secondary); font-size: 13px; padding: 6px 12px; display: flex; align-items: center; gap: 8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Ekpo-Abasi Docs</span>
+        </a>
+        <a href="mailto:support@junctionai.cr.gov.ng" class="itcs-menu-item" style="color: var(--itcs-text-secondary); font-size: 13px; padding: 6px 12px; display: flex; align-items: center; gap: 8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span>Get Help</span>
+        </a>
+    </div>
+</aside>
