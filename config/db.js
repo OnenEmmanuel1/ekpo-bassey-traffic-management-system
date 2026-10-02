@@ -96,7 +96,8 @@ async function runMigrations() {
 
         if (fs.existsSync(schemaPath)) {
             const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-            const queries = schemaSql
+            const cleanSchema = schemaSql.replace(/--.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+            const queries = cleanSchema
                 .split(';')
                 .map(q => q.trim())
                 .filter(q => q.length > 0);
@@ -109,16 +110,17 @@ async function runMigrations() {
 
         if (fs.existsSync(seedPath)) {
             const seedSql = fs.readFileSync(seedPath, 'utf8');
-            const queries = seedSql
+            const cleanSeed = seedSql.replace(/--.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+            const queries = cleanSeed
                 .split(';')
                 .map(q => q.trim())
-                .filter(q => q.length > 0 && !q.startsWith('--'));
+                .filter(q => q.length > 0);
 
             for (const q of queries) {
                 try {
                     await pool.query(q);
                 } catch (seedErr) {
-                    // Ignore duplicate key or existing data warnings
+                    console.warn('[Database Seed Warning]:', seedErr.message);
                 }
             }
             console.log('[Database] Seed data verified/loaded successfully.');
@@ -133,7 +135,7 @@ async function runMigrations() {
  */
 async function seedMemoryStore() {
     const bcrypt = require('bcryptjs');
-    const hash = await bcrypt.hash('passsword123', 10);
+    const hash = await bcrypt.hash('password123', 10);
     memoryStore.admins = [
         {
             id: 1,

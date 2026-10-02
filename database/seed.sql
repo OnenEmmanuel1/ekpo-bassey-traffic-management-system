@@ -3,16 +3,16 @@
 
 -- 1. Default Traffic Authority Administrator
 -- Email: admin@junctionai.cr.gov.ng
--- Default Password: passsword123
--- Bcrypt Hash for "passsword123": $2a$10$iqHT5IgkxmZ7RtCUcxtwveYw.hHr7xFJ82z37kll7Oiz.V8lNsViW
+-- Default Password: password123
+-- Bcrypt Hash for "password123": $2a$10$MWd4QWF.mOshKy3mP4y9tu7ZjagCmqT1Fo5A1L0H1ozYGSCpNYU.a
 INSERT INTO admins (id, name, email, password_hash, role)
 VALUES (
     1,
     'Engr. Bassey E. Okon',
     'admin@junctionai.cr.gov.ng',
-    '$2a$10$iqHT5IgkxmZ7RtCUcxtwveYw.hHr7xFJ82z37kll7Oiz.V8lNsViW',
+    '$2a$10$MWd4QWF.mOshKy3mP4y9tu7ZjagCmqT1Fo5A1L0H1ozYGSCpNYU.a',
     'Senior Traffic Engineer'
-) ON DUPLICATE KEY UPDATE name=VALUES(name);
+) ON DUPLICATE KEY UPDATE name=VALUES(name), password_hash=VALUES(password_hash);
 
 -- 2. Four Directional Approach Lanes at Ekpo-Abasi Junction
 INSERT INTO lanes (id, code, name, direction, approach_description, is_active)

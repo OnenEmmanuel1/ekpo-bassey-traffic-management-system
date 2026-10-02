@@ -161,7 +161,7 @@ docker-compose up --build
 
 | Role | Email | Password |
 | :--- | :--- | :--- |
-| **Senior Traffic Engineer** | `admin@junctionai.cr.gov.ng` | `Admin@EkpoAbasi2026!` |
+| **Senior Traffic Engineer** | `admin@junctionai.cr.gov.ng` | `password123` |
 
 ---
 

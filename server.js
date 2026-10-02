@@ -98,7 +98,7 @@ async function startServer() {
         // 3. Start HTTP Server
         app.listen(PORT, () => {
             console.log(`[JunctionAI Server] Online and listening on http://localhost:${PORT}`);
-            console.log(`[JunctionAI Admin] Default login: admin@junctionai.cr.gov.ng / Admin@EkpoAbasi2026!`);
+            console.log(`[JunctionAI Admin] Default login: admin@junctionai.cr.gov.ng / password123`);
         });
     } catch (err) {
         console.error('[Server Fatal Error]:', err);
